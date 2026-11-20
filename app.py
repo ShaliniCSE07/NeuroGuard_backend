@@ -19,6 +19,9 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "OPTIONS"])
 
+# Initialize DB on start
+init_db()
+
 
 # ---------- Static frontend ----------
 @app.route("/")
@@ -193,5 +196,5 @@ def stop_member3_activity():
 
 
 if __name__ == "__main__":
-    init_db()
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
